@@ -1,16 +1,25 @@
 import streamlit as st
 import pandas as pd
 import joblib
-import numpy as np
+import os
 
 st.set_page_config(page_title="Prediksi Customer Churn", page_icon="📡", layout="centered")
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 @st.cache_resource
 def load_artifacts():
-    model = joblib.load("churn_model.pkl")
-    scaler = joblib.load("scaler.pkl")
-    encoders = joblib.load("encoders.pkl")
-    feature_cols = joblib.load("feature_columns.pkl")
+    required = ["churn_model.pkl", "scaler.pkl", "encoders.pkl", "feature_columns.pkl"]
+    missing = [f for f in required if not os.path.exists(os.path.join(BASE_DIR, f))]
+    if missing:
+        st.error(f"File berikut tidak ditemukan di repository: {missing}")
+        st.write("Isi folder repository saat ini:")
+        st.code("\n".join(sorted(os.listdir(BASE_DIR))))
+        st.stop()
+    model = joblib.load(os.path.join(BASE_DIR, "churn_model.pkl"))
+    scaler = joblib.load(os.path.join(BASE_DIR, "scaler.pkl"))
+    encoders = joblib.load(os.path.join(BASE_DIR, "encoders.pkl"))
+    feature_cols = joblib.load(os.path.join(BASE_DIR, "feature_columns.pkl"))
     return model, scaler, encoders, feature_cols
 
 model, scaler, encoders, feature_cols = load_artifacts()
