@@ -1,5 +1,8 @@
 # Sistem Prediksi Customer Churn
 
+**Live App:** https://churn-prediction-app-awes4vglfkuwb2vvc8gpvq.streamlit.app/
+**Repository:** https://github.com/ryan76755/churn-prediction-app
+
 Aplikasi web deployment model machine learning untuk memprediksi churn pelanggan telekomunikasi.
 
 ## Isi Repository
